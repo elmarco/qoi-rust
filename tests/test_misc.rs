@@ -44,7 +44,7 @@ fn test_decode_stream_to_larger_buffer() -> Result<()> {
 }
 
 #[test]
-fn test_new_encoder() {
+fn test_new_decoder() {
     // this used to fail due to `Bytes` not being `pub`
     let arr = [0u8];
     let _ = qoi::Decoder::new(&arr[..]);
