@@ -134,13 +134,6 @@ impl<const N: usize> Pixel<N> {
     }
 
     #[inline]
-    pub fn rgb_add(&mut self, r: u8, g: u8, b: u8) {
-        self.0[0] = self.0[0].wrapping_add(r);
-        self.0[1] = self.0[1].wrapping_add(g);
-        self.0[2] = self.0[2].wrapping_add(b);
-    }
-
-    #[inline]
     pub fn encode_into<W: Writer>(&self, px_prev: Self, buf: W) -> Result<W> {
         if N == 3 || self.a_or(0) == px_prev.a_or(0) {
             let vg = self.g().wrapping_sub(px_prev.g());
