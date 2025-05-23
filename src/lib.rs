@@ -76,6 +76,7 @@ mod encode;
 mod error;
 mod header;
 mod pixel;
+mod raw_image_data;
 mod types;
 mod utils;
 

@@ -10,15 +10,15 @@ use crate::consts::{QOI_HEADER_SIZE, QOI_OP_INDEX, QOI_OP_RUN, QOI_PADDING, QOI_
 use crate::error::{Error, Result};
 use crate::header::Header;
 use crate::pixel::{Pixel, SupportedChannels};
+use crate::raw_image_data::{ImageData, RawImageData};
 use crate::types::{Channels, ColorSpace, RawChannels};
 #[cfg(feature = "std")]
 use crate::utils::GenericWriter;
 use crate::utils::{unlikely, BytesMut, Writer};
 
 #[allow(clippy::cast_possible_truncation, unused_assignments, unused_variables)]
-fn encode_impl<W: Writer, const N: usize, const R: usize>(
-    mut buf: W, data: &[u8], width: usize, height: usize, stride: usize,
-    read_px: impl Fn(&mut Pixel<N>, &[u8]),
+fn encode_impl<'data, const N: usize>(
+    mut buf: impl Writer, image_data: &impl ImageData<'data>,
 ) -> Result<usize>
 where
     Pixel<N>: SupportedChannels,
@@ -33,53 +33,48 @@ where
     let mut px = Pixel::<N>::new().with_a(0xff);
     let mut index_allowed = false;
 
-    let n_pixels = width * height;
+    let n_pixels = image_data.n_pixels();
 
-    let mut i = 0;
-    for row in data.chunks(stride).take(height) {
-        let pixel_row = &row[..width * R];
-        for chunk in pixel_row.chunks_exact(R) {
-            read_px(&mut px, chunk);
-            if px == px_prev {
-                run += 1;
-                if run == 62 || unlikely(i == n_pixels - 1) {
-                    buf = buf.write_one(QOI_OP_RUN | (run - 1))?;
-                    run = 0;
-                }
-            } else {
-                if run != 0 {
-                    #[cfg(not(feature = "reference"))]
-                    {
-                        // credits for the original idea: @zakarumych (had to be fixed though)
-                        buf = buf.write_one(if run == 1 && index_allowed {
-                            QOI_OP_INDEX | hash_prev
-                        } else {
-                            QOI_OP_RUN | (run - 1)
-                        })?;
-                    }
-                    #[cfg(feature = "reference")]
-                    {
-                        buf = buf.write_one(QOI_OP_RUN | (run - 1))?;
-                    }
-                    run = 0;
-                }
-                index_allowed = true;
-                let px_rgba = px.as_rgba(0xff);
-                hash_prev = px_rgba.hash_index();
-                let index_px = &mut index[hash_prev as usize];
-                if *index_px == px_rgba {
-                    buf = buf.write_one(QOI_OP_INDEX | hash_prev)?;
-                } else {
-                    *index_px = px_rgba;
-                    buf = px.encode_into(px_prev, buf)?;
-                }
-                px_prev = px;
+    let read_px = image_data.get_pixel_reader::<N>();
+    for (i, chunk) in image_data.iter_pixels().enumerate() {
+        read_px(&mut px, chunk);
+        if px == px_prev {
+            run += 1;
+            if run == 62 || unlikely(i == n_pixels - 1) {
+                buf = buf.write_one(QOI_OP_RUN | (run - 1))?;
+                run = 0;
             }
-            i += 1;
+        } else {
+            if run != 0 {
+                #[cfg(not(feature = "reference"))]
+                {
+                    // credits for the original idea: @zakarumych (had to be fixed though)
+                    buf = buf.write_one(if run == 1 && index_allowed {
+                        QOI_OP_INDEX | hash_prev
+                    } else {
+                        QOI_OP_RUN | (run - 1)
+                    })?;
+                }
+                #[cfg(feature = "reference")]
+                {
+                    buf = buf.write_one(QOI_OP_RUN | (run - 1))?;
+                }
+                run = 0;
+            }
+            index_allowed = true;
+            let px_rgba = px.as_rgba(0xff);
+            hash_prev = px_rgba.hash_index();
+            let index_px = &mut index[hash_prev as usize];
+            if *index_px == px_rgba {
+                buf = buf.write_one(QOI_OP_INDEX | hash_prev)?;
+            } else {
+                *index_px = px_rgba;
+                buf = px.encode_into(px_prev, buf)?;
+            }
+            px_prev = px;
         }
     }
 
-    assert_eq!(i, n_pixels);
     buf = buf.write_many(&QOI_PADDING)?;
     Ok(cap.saturating_sub(buf.capacity()))
 }
@@ -184,6 +179,16 @@ impl<'a> Encoder<'a> {
         self.header.channels
     }
 
+    /// Returns a new encoder with modified output channels.
+    ///
+    /// NOTE: this doesn't change how the provided data is interpreted, it changes
+    /// only how the qoi image gets encoded. This can lead to loss of information.
+    #[inline]
+    pub const fn with_channels(mut self, channels: Channels) -> Self {
+        self.header = self.header.with_channels(channels);
+        self
+    }
+
     /// Returns the header that will be stored in the encoded image.
     #[inline]
     pub const fn header(&self) -> &Header {
@@ -238,56 +243,17 @@ impl<'a> Encoder<'a> {
 
     #[inline]
     fn encode_impl_all<W: Writer>(&self, out: W) -> Result<usize> {
-        let width = self.header.width as usize;
-        let height = self.header.height as usize;
-        let stride = self.stride;
-        match self.raw_channels {
-            RawChannels::Rgb => {
-                encode_impl::<_, 3, 3>(out, self.data, width, height, stride, |px, c| px.read(c))
-            }
-            RawChannels::Bgr => {
-                encode_impl::<_, 3, 3>(out, self.data, width, height, stride, |px, c| {
-                    px.update_rgb(c[2], c[1], c[0]);
-                })
-            }
-            RawChannels::Rgba => {
-                encode_impl::<_, 4, 4>(out, self.data, width, height, stride, |px, c| px.read(c))
-            }
-            RawChannels::Argb => {
-                encode_impl::<_, 4, 4>(out, self.data, width, height, stride, |px, c| {
-                    px.update_rgba(c[1], c[2], c[3], c[0])
-                })
-            }
-            RawChannels::Rgbx => {
-                encode_impl::<_, 3, 4>(out, self.data, width, height, stride, |px, c| {
-                    px.read(&c[..3])
-                })
-            }
-            RawChannels::Xrgb => {
-                encode_impl::<_, 3, 4>(out, self.data, width, height, stride, |px, c| {
-                    px.update_rgb(c[1], c[2], c[3])
-                })
-            }
-            RawChannels::Bgra => {
-                encode_impl::<_, 4, 4>(out, self.data, width, height, stride, |px, c| {
-                    px.update_rgba(c[2], c[1], c[0], c[3])
-                })
-            }
-            RawChannels::Abgr => {
-                encode_impl::<_, 4, 4>(out, self.data, width, height, stride, |px, c| {
-                    px.update_rgba(c[3], c[2], c[1], c[0])
-                })
-            }
-            RawChannels::Bgrx => {
-                encode_impl::<_, 3, 4>(out, self.data, width, height, stride, |px, c| {
-                    px.update_rgb(c[2], c[1], c[0])
-                })
-            }
-            RawChannels::Xbgr => {
-                encode_impl::<_, 4, 4>(out, self.data, width, height, stride, |px, c| {
-                    px.update_rgb(c[3], c[2], c[1])
-                })
-            }
+        let data = RawImageData {
+            channels: self.raw_channels,
+            data: self.data,
+            stride: self.stride,
+            width: self.header.width as usize,
+            height: self.header.height as usize,
+        };
+
+        match self.header.channels {
+            Channels::Rgb => encode_impl::<3>(out, &data),
+            Channels::Rgba => encode_impl::<4>(out, &data),
         }
     }
 }
