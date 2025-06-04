@@ -1,6 +1,5 @@
 #[cfg(any(feature = "std", feature = "alloc"))]
 use alloc::{vec, vec::Vec};
-use core::convert::TryFrom;
 #[cfg(feature = "std")]
 use std::io::Write;
 
@@ -114,6 +113,84 @@ pub fn encode_to_vec(data: impl AsRef<[u8]>, width: u32, height: u32) -> Result<
     Encoder::new(&data, width, height)?.encode_to_vec()
 }
 
+pub struct EncoderBuilder<'a> {
+    data: &'a [u8],
+    width: u32,
+    height: u32,
+    stride: Option<usize>,
+    raw_channels: Option<RawChannels>,
+    colorspace: Option<ColorSpace>,
+}
+
+impl<'a> EncoderBuilder<'a> {
+    /// Creates a new encoder builder from a given array of pixel data and image dimensions.
+    pub fn new(data: &'a (impl AsRef<[u8]> + ?Sized), width: u32, height: u32) -> Self {
+        Self {
+            data: data.as_ref(),
+            width,
+            height,
+            stride: None,
+            raw_channels: None,
+            colorspace: None,
+        }
+    }
+
+    /// Set the stride of the pixel data.
+    pub const fn stride(mut self, stride: usize) -> Self {
+        self.stride = Some(stride);
+        self
+    }
+
+    /// Set the input format of the pixel data.
+    pub const fn raw_channels(mut self, raw_channels: RawChannels) -> Self {
+        self.raw_channels = Some(raw_channels);
+        self
+    }
+
+    /// Set the colorspace.
+    pub const fn colorspace(mut self, colorspace: ColorSpace) -> Self {
+        self.colorspace = Some(colorspace);
+        self
+    }
+
+    /// Build the encoder.
+    pub fn build(self) -> Result<Encoder<'a>> {
+        let EncoderBuilder { data, width, height, stride, raw_channels, colorspace } = self;
+
+        let size = data.len();
+        let no_stride = stride.is_none();
+        let stride = stride.unwrap_or(
+            size.checked_div(height as usize)
+                .ok_or(Error::InvalidImageDimensions { width, height })?,
+        );
+        let raw_channels = raw_channels.unwrap_or(if stride == width as usize * 3 {
+            RawChannels::Rgb
+        } else {
+            RawChannels::Rgba
+        });
+
+        if stride < width as usize * raw_channels.bytes_per_pixel() {
+            return Err(Error::InvalidImageLength { size, width, height });
+        }
+        if stride * (height - 1) as usize + width as usize * raw_channels.bytes_per_pixel() < size {
+            return Err(Error::InvalidImageLength { size, width, height });
+        }
+        if no_stride && size != width as usize * height as usize * raw_channels.bytes_per_pixel() {
+            return Err(Error::InvalidImageLength { size, width, height });
+        }
+
+        let channels = raw_channels.into();
+        let colorspace = colorspace.unwrap_or_default();
+
+        Ok(Encoder {
+            data,
+            stride,
+            raw_channels,
+            header: Header::try_new(self.width, self.height, channels, colorspace)?,
+        })
+    }
+}
+
 /// Encode QOI images into buffers or into streams.
 pub struct Encoder<'a> {
     data: &'a [u8],
@@ -131,41 +208,7 @@ impl<'a> Encoder<'a> {
     #[inline]
     #[allow(clippy::cast_possible_truncation)]
     pub fn new(data: &'a (impl AsRef<[u8]> + ?Sized), width: u32, height: u32) -> Result<Self> {
-        let data = data.as_ref();
-        let mut header =
-            Header::try_new(width, height, Channels::default(), ColorSpace::default())?;
-        let size = data.len();
-        let n_channels = size / header.n_pixels();
-        if header.n_pixels() * n_channels != size {
-            return Err(Error::InvalidImageLength { size, width, height });
-        }
-        header.channels = Channels::try_from(n_channels.min(0xff) as u8)?;
-        let raw_channels = RawChannels::from(header.channels);
-        let stride = width as usize * raw_channels.bytes_per_pixel();
-        Ok(Self { data, stride, raw_channels, header })
-    }
-
-    /// Creates a new encoder from a given array of pixel data, image
-    /// dimensions, stride, and raw format.
-    #[inline]
-    #[allow(clippy::cast_possible_truncation)]
-    pub fn new_raw(
-        data: &'a (impl AsRef<[u8]> + ?Sized), width: u32, height: u32, stride: usize,
-        raw_channels: RawChannels,
-    ) -> Result<Self> {
-        let data = data.as_ref();
-        let channels = raw_channels.into();
-        let header = Header::try_new(width, height, channels, ColorSpace::default())?;
-
-        if stride < width as usize * raw_channels.bytes_per_pixel() {
-            return Err(Error::InvalidStride { stride });
-        }
-        let size = data.len();
-        if stride * (height - 1) as usize + width as usize * raw_channels.bytes_per_pixel() < size {
-            return Err(Error::InvalidImageLength { size, width, height });
-        }
-
-        Ok(Self { data, stride, raw_channels, header })
+        EncoderBuilder::new(data, width, height).build()
     }
 
     /// Returns a new encoder with modified color space.

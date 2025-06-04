@@ -97,57 +97,96 @@ fn test_new_encoder() {
         Err(Error::InvalidImageLength { size: 12, width: 3, height: 3 })
     ));
 
-    assert!(matches!(qoi::Encoder::new(&arr3, 1, 1), Err(Error::InvalidChannels { channels: 12 })));
+    assert!(matches!(
+        qoi::Encoder::new(&arr3, 1, 1),
+        Err(Error::InvalidImageLength { size: 12, width: 1, height: 1 })
+    ));
 
-    let enc = qoi::Encoder::new_raw(&arr3, 2, 2, 2 * 3, RawChannels::Bgr).unwrap();
+    let enc = qoi::EncoderBuilder::new(&arr3, 2, 2)
+        .stride(2 * 3)
+        .raw_channels(RawChannels::Bgr)
+        .build()
+        .unwrap();
     assert_eq!(enc.channels(), Channels::Rgb);
     let qoi = enc.encode_to_vec().unwrap();
     let (_header, res) = decode_to_vec(qoi).unwrap();
     assert_eq!(res, [2, 1, 0, 5, 4, 3, 8, 7, 6, 11, 10, 9]);
 
-    let enc = qoi::Encoder::new_raw(&arr4, 2, 2, 2 * 4, RawChannels::Rgba).unwrap();
+    let enc = qoi::EncoderBuilder::new(&arr4, 2, 2)
+        .stride(2 * 4)
+        .raw_channels(RawChannels::Rgba)
+        .build()
+        .unwrap();
     assert_eq!(enc.channels(), Channels::Rgba);
     let qoi = enc.encode_to_vec().unwrap();
     let (_header, res) = decode_to_vec(qoi).unwrap();
     assert_eq!(res, arr4);
 
-    let enc = qoi::Encoder::new_raw(&arr4, 2, 2, 2 * 4, RawChannels::Bgra).unwrap();
+    let enc = qoi::EncoderBuilder::new(&arr4, 2, 2)
+        .stride(2 * 4)
+        .raw_channels(RawChannels::Bgra)
+        .build()
+        .unwrap();
     assert_eq!(enc.channels(), Channels::Rgba);
     let qoi = enc.encode_to_vec().unwrap();
     let (_header, res) = decode_to_vec(qoi).unwrap();
     assert_eq!(res, [2, 1, 0, 3, 6, 5, 4, 7, 10, 9, 8, 11, 14, 13, 12, 15]);
 
-    let enc = qoi::Encoder::new_raw(&arr4, 2, 2, 2 * 4, RawChannels::Rgbx).unwrap();
+    let enc = qoi::EncoderBuilder::new(&arr4, 2, 2)
+        .stride(2 * 4)
+        .raw_channels(RawChannels::Rgbx)
+        .build()
+        .unwrap();
     assert_eq!(enc.channels(), Channels::Rgb);
     let qoi = enc.encode_to_vec().unwrap();
     let (_header, res) = decode_to_vec(qoi).unwrap();
     assert_eq!(res, [0, 1, 2, 4, 5, 6, 8, 9, 10, 12, 13, 14]);
 
-    let enc = qoi::Encoder::new_raw(&arr4, 2, 2, 2 * 4, RawChannels::Xrgb).unwrap();
+    let enc = qoi::EncoderBuilder::new(&arr4, 2, 2)
+        .stride(2 * 4)
+        .raw_channels(RawChannels::Xrgb)
+        .build()
+        .unwrap();
     assert_eq!(enc.channels(), Channels::Rgb);
     let qoi = enc.encode_to_vec().unwrap();
     let (_header, res) = decode_to_vec(qoi).unwrap();
     assert_eq!(res, [1, 2, 3, 5, 6, 7, 9, 10, 11, 13, 14, 15]);
 
-    let enc = qoi::Encoder::new_raw(&arr4, 2, 2, 2 * 4, RawChannels::Bgra).unwrap();
+    let enc = qoi::EncoderBuilder::new(&arr4, 2, 2)
+        .stride(2 * 4)
+        .raw_channels(RawChannels::Bgra)
+        .build()
+        .unwrap();
     assert_eq!(enc.channels(), Channels::Rgba);
     let qoi = enc.encode_to_vec().unwrap();
     let (_header, res) = decode_to_vec(qoi).unwrap();
     assert_eq!(res, [2, 1, 0, 3, 6, 5, 4, 7, 10, 9, 8, 11, 14, 13, 12, 15]);
 
-    let enc = qoi::Encoder::new_raw(&arr4, 2, 2, 2 * 4, RawChannels::Abgr).unwrap();
+    let enc = qoi::EncoderBuilder::new(&arr4, 2, 2)
+        .stride(2 * 4)
+        .raw_channels(RawChannels::Abgr)
+        .build()
+        .unwrap();
     assert_eq!(enc.channels(), Channels::Rgba);
     let qoi = enc.encode_to_vec().unwrap();
     let (_header, res) = decode_to_vec(qoi).unwrap();
     assert_eq!(res, [3, 2, 1, 0, 7, 6, 5, 4, 11, 10, 9, 8, 15, 14, 13, 12]);
 
-    let enc = qoi::Encoder::new_raw(&arr4, 2, 2, 2 * 4, RawChannels::Bgrx).unwrap();
+    let enc = qoi::EncoderBuilder::new(&arr4, 2, 2)
+        .stride(2 * 4)
+        .raw_channels(RawChannels::Bgrx)
+        .build()
+        .unwrap();
     assert_eq!(enc.channels(), Channels::Rgb);
     let qoi = enc.encode_to_vec().unwrap();
     let (_header, res) = decode_to_vec(qoi).unwrap();
     assert_eq!(res, [2, 1, 0, 6, 5, 4, 10, 9, 8, 14, 13, 12]);
 
-    let enc = qoi::Encoder::new_raw(&arr4, 2, 2, 2 * 4, RawChannels::Xbgr).unwrap();
+    let enc = qoi::EncoderBuilder::new(&arr4, 2, 2)
+        .stride(2 * 4)
+        .raw_channels(RawChannels::Xbgr)
+        .build()
+        .unwrap();
     assert_eq!(enc.channels(), Channels::Rgb);
     let qoi = enc.encode_to_vec().unwrap();
     let (_header, res) = decode_to_vec(qoi).unwrap();
