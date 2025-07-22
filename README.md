@@ -52,10 +52,6 @@ Benchmarks have also been run for all of the other Rust implementations
 of QOI for comparison purposes and, at the time of writing this document,
 this library proved to be the fastest one by a noticeable margin.
 
-### Rust version
-
-The minimum required Rust version for the latest crate version is 1.62.0.
-
 ### `no_std`
 
 This crate supports `no_std` mode. By default, std is enabled via the `std`
