@@ -1,7 +1,7 @@
 #![cfg_attr(not(feature = "std"), allow(unused_imports, dead_code))]
 
 use qoi::{
-    consts::{QOI_OP_RGB, QOI_OP_RUN},
+    consts::{QOI_OP_INDEX, QOI_OP_RGB, QOI_OP_RUN},
     decode_to_vec, Channels, ColorSpace, Decoder, Header, Result,
 };
 
@@ -59,6 +59,18 @@ fn test_start_with_qoi_op_run() -> Result<()> {
     qoi_data.push(1);
     let (_, decoded) = decode_to_vec(&qoi_data)?;
     assert_eq!(decoded, vec![0, 0, 0, 255, 0, 0, 0, 255, 10, 20, 30, 255]);
+    Ok(())
+}
+
+#[test]
+fn test_start_with_qoi_op_run_and_use_index() -> Result<()> {
+    let header = Header::try_new(4, 1, Channels::Rgba, ColorSpace::Linear)?;
+    let mut qoi_data: Vec<_> = header.encode().into_iter().collect();
+    qoi_data.extend([QOI_OP_RUN | 1, QOI_OP_RGB, 10, 20, 30, QOI_OP_INDEX | 53]);
+    qoi_data.extend([0; 7]);
+    qoi_data.push(1);
+    let (_, decoded) = decode_to_vec(&qoi_data)?;
+    assert_eq!(decoded, vec![0, 0, 0, 255, 0, 0, 0, 255, 10, 20, 30, 255, 0, 0, 0, 255]);
     Ok(())
 }
 
