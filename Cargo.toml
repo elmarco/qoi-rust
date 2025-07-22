@@ -46,6 +46,10 @@ rand_distr = "0.5"
 walkdir = "2.5"
 # internal
 libqoi = { path = "libqoi" }
+rustup-toolchain = { version = "0.1.10" }
+rustdoc-json = { version = "0.9.6" }
+public-api = { version = "0.49.0" }
+insta = "1.43.1"
 
 [lib]
 name = "qoi"
