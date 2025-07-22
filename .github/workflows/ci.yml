@@ -20,6 +20,7 @@ jobs:
         with:
           { profile: minimal, toolchain: "${{ matrix.rust }}", override: true }
       - run: cargo test
+        if: matrix.rust != '1.67.0'
   tests-s390x:
     runs-on: ubuntu-latest
     strategy:

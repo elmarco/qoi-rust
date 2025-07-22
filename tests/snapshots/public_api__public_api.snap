@@ -1,0 +1,398 @@
+---
+source: tests/public_api.rs
+expression: public_api
+---
+pub mod qoi
+#[repr(u8)] pub enum qoi::Channels
+pub qoi::Channels::Rgb = 3
+pub qoi::Channels::Rgba = 4
+impl qoi::Channels
+pub const fn qoi::Channels::as_u8(self) -> u8
+pub const fn qoi::Channels::is_rgb(self) -> bool
+pub const fn qoi::Channels::is_rgba(self) -> bool
+impl core::clone::Clone for qoi::Channels
+pub fn qoi::Channels::clone(&self) -> qoi::Channels
+impl core::cmp::Eq for qoi::Channels
+impl core::cmp::Ord for qoi::Channels
+pub fn qoi::Channels::cmp(&self, other: &qoi::Channels) -> core::cmp::Ordering
+impl core::cmp::PartialEq for qoi::Channels
+pub fn qoi::Channels::eq(&self, other: &qoi::Channels) -> bool
+impl core::cmp::PartialOrd for qoi::Channels
+pub fn qoi::Channels::partial_cmp(&self, other: &qoi::Channels) -> core::option::Option<core::cmp::Ordering>
+impl core::convert::From<qoi::Channels> for qoi::RawChannels
+pub fn qoi::RawChannels::from(value: qoi::Channels) -> Self
+impl core::convert::From<qoi::Channels> for u8
+pub fn u8::from(channels: qoi::Channels) -> Self
+impl core::convert::From<qoi::RawChannels> for qoi::Channels
+pub fn qoi::Channels::from(value: qoi::RawChannels) -> Self
+impl core::convert::TryFrom<u8> for qoi::Channels
+pub type qoi::Channels::Error = qoi::Error
+pub fn qoi::Channels::try_from(channels: u8) -> qoi::Result<Self>
+impl core::default::Default for qoi::Channels
+pub fn qoi::Channels::default() -> Self
+impl core::fmt::Debug for qoi::Channels
+pub fn qoi::Channels::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::hash::Hash for qoi::Channels
+pub fn qoi::Channels::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
+impl core::marker::Copy for qoi::Channels
+impl core::marker::StructuralPartialEq for qoi::Channels
+impl core::marker::Freeze for qoi::Channels
+impl core::marker::Send for qoi::Channels
+impl core::marker::Sync for qoi::Channels
+impl core::marker::Unpin for qoi::Channels
+impl core::panic::unwind_safe::RefUnwindSafe for qoi::Channels
+impl core::panic::unwind_safe::UnwindSafe for qoi::Channels
+impl<T, U> core::convert::Into<U> for qoi::Channels where U: core::convert::From<T>
+pub fn qoi::Channels::into(self) -> U
+impl<T, U> core::convert::TryFrom<U> for qoi::Channels where U: core::convert::Into<T>
+pub type qoi::Channels::Error = core::convert::Infallible
+pub fn qoi::Channels::try_from(value: U) -> core::result::Result<T, <T as core::convert::TryFrom<U>>::Error>
+impl<T, U> core::convert::TryInto<U> for qoi::Channels where U: core::convert::TryFrom<T>
+pub type qoi::Channels::Error = <U as core::convert::TryFrom<T>>::Error
+pub fn qoi::Channels::try_into(self) -> core::result::Result<U, <U as core::convert::TryFrom<T>>::Error>
+impl<T> alloc::borrow::ToOwned for qoi::Channels where T: core::clone::Clone
+pub type qoi::Channels::Owned = T
+pub fn qoi::Channels::clone_into(&self, target: &mut T)
+pub fn qoi::Channels::to_owned(&self) -> T
+impl<T> core::any::Any for qoi::Channels where T: 'static + ?core::marker::Sized
+pub fn qoi::Channels::type_id(&self) -> core::any::TypeId
+impl<T> core::borrow::Borrow<T> for qoi::Channels where T: ?core::marker::Sized
+pub fn qoi::Channels::borrow(&self) -> &T
+impl<T> core::borrow::BorrowMut<T> for qoi::Channels where T: ?core::marker::Sized
+pub fn qoi::Channels::borrow_mut(&mut self) -> &mut T
+impl<T> core::clone::CloneToUninit for qoi::Channels where T: core::clone::Clone
+pub unsafe fn qoi::Channels::clone_to_uninit(&self, dest: *mut u8)
+impl<T> core::convert::From<T> for qoi::Channels
+pub fn qoi::Channels::from(t: T) -> T
+#[repr(u8)] pub enum qoi::ColorSpace
+pub qoi::ColorSpace::Linear = 1
+pub qoi::ColorSpace::Srgb = 0
+impl qoi::ColorSpace
+pub const fn qoi::ColorSpace::as_u8(self) -> u8
+pub const fn qoi::ColorSpace::is_linear(self) -> bool
+pub const fn qoi::ColorSpace::is_srgb(self) -> bool
+impl core::clone::Clone for qoi::ColorSpace
+pub fn qoi::ColorSpace::clone(&self) -> qoi::ColorSpace
+impl core::cmp::Eq for qoi::ColorSpace
+impl core::cmp::Ord for qoi::ColorSpace
+pub fn qoi::ColorSpace::cmp(&self, other: &qoi::ColorSpace) -> core::cmp::Ordering
+impl core::cmp::PartialEq for qoi::ColorSpace
+pub fn qoi::ColorSpace::eq(&self, other: &qoi::ColorSpace) -> bool
+impl core::cmp::PartialOrd for qoi::ColorSpace
+pub fn qoi::ColorSpace::partial_cmp(&self, other: &qoi::ColorSpace) -> core::option::Option<core::cmp::Ordering>
+impl core::convert::From<qoi::ColorSpace> for u8
+pub fn u8::from(colorspace: qoi::ColorSpace) -> Self
+impl core::convert::TryFrom<u8> for qoi::ColorSpace
+pub type qoi::ColorSpace::Error = qoi::Error
+pub fn qoi::ColorSpace::try_from(colorspace: u8) -> qoi::Result<Self>
+impl core::default::Default for qoi::ColorSpace
+pub fn qoi::ColorSpace::default() -> Self
+impl core::fmt::Debug for qoi::ColorSpace
+pub fn qoi::ColorSpace::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::hash::Hash for qoi::ColorSpace
+pub fn qoi::ColorSpace::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
+impl core::marker::Copy for qoi::ColorSpace
+impl core::marker::StructuralPartialEq for qoi::ColorSpace
+impl core::marker::Freeze for qoi::ColorSpace
+impl core::marker::Send for qoi::ColorSpace
+impl core::marker::Sync for qoi::ColorSpace
+impl core::marker::Unpin for qoi::ColorSpace
+impl core::panic::unwind_safe::RefUnwindSafe for qoi::ColorSpace
+impl core::panic::unwind_safe::UnwindSafe for qoi::ColorSpace
+impl<T, U> core::convert::Into<U> for qoi::ColorSpace where U: core::convert::From<T>
+pub fn qoi::ColorSpace::into(self) -> U
+impl<T, U> core::convert::TryFrom<U> for qoi::ColorSpace where U: core::convert::Into<T>
+pub type qoi::ColorSpace::Error = core::convert::Infallible
+pub fn qoi::ColorSpace::try_from(value: U) -> core::result::Result<T, <T as core::convert::TryFrom<U>>::Error>
+impl<T, U> core::convert::TryInto<U> for qoi::ColorSpace where U: core::convert::TryFrom<T>
+pub type qoi::ColorSpace::Error = <U as core::convert::TryFrom<T>>::Error
+pub fn qoi::ColorSpace::try_into(self) -> core::result::Result<U, <U as core::convert::TryFrom<T>>::Error>
+impl<T> alloc::borrow::ToOwned for qoi::ColorSpace where T: core::clone::Clone
+pub type qoi::ColorSpace::Owned = T
+pub fn qoi::ColorSpace::clone_into(&self, target: &mut T)
+pub fn qoi::ColorSpace::to_owned(&self) -> T
+impl<T> core::any::Any for qoi::ColorSpace where T: 'static + ?core::marker::Sized
+pub fn qoi::ColorSpace::type_id(&self) -> core::any::TypeId
+impl<T> core::borrow::Borrow<T> for qoi::ColorSpace where T: ?core::marker::Sized
+pub fn qoi::ColorSpace::borrow(&self) -> &T
+impl<T> core::borrow::BorrowMut<T> for qoi::ColorSpace where T: ?core::marker::Sized
+pub fn qoi::ColorSpace::borrow_mut(&mut self) -> &mut T
+impl<T> core::clone::CloneToUninit for qoi::ColorSpace where T: core::clone::Clone
+pub unsafe fn qoi::ColorSpace::clone_to_uninit(&self, dest: *mut u8)
+impl<T> core::convert::From<T> for qoi::ColorSpace
+pub fn qoi::ColorSpace::from(t: T) -> T
+pub enum qoi::Error
+pub qoi::Error::InvalidChannels
+pub qoi::Error::InvalidChannels::channels: u8
+pub qoi::Error::InvalidColorSpace
+pub qoi::Error::InvalidColorSpace::colorspace: u8
+pub qoi::Error::InvalidImageDimensions
+pub qoi::Error::InvalidImageDimensions::height: u32
+pub qoi::Error::InvalidImageDimensions::width: u32
+pub qoi::Error::InvalidImageLength
+pub qoi::Error::InvalidImageLength::height: u32
+pub qoi::Error::InvalidImageLength::size: usize
+pub qoi::Error::InvalidImageLength::width: u32
+pub qoi::Error::InvalidMagic
+pub qoi::Error::InvalidMagic::magic: u32
+pub qoi::Error::InvalidPadding
+pub qoi::Error::InvalidStride
+pub qoi::Error::InvalidStride::stride: usize
+pub qoi::Error::IoError(std::io::error::Error)
+pub qoi::Error::OutputBufferTooSmall
+pub qoi::Error::OutputBufferTooSmall::required: usize
+pub qoi::Error::OutputBufferTooSmall::size: usize
+pub qoi::Error::UnexpectedBufferEnd
+impl core::convert::From<core::convert::Infallible> for qoi::Error
+pub fn qoi::Error::from(_: core::convert::Infallible) -> Self
+impl core::convert::From<std::io::error::Error> for qoi::Error
+pub fn qoi::Error::from(err: std::io::error::Error) -> Self
+impl core::error::Error for qoi::Error
+impl core::fmt::Debug for qoi::Error
+pub fn qoi::Error::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for qoi::Error
+pub fn qoi::Error::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Freeze for qoi::Error
+impl core::marker::Send for qoi::Error
+impl core::marker::Sync for qoi::Error
+impl core::marker::Unpin for qoi::Error
+impl !core::panic::unwind_safe::RefUnwindSafe for qoi::Error
+impl !core::panic::unwind_safe::UnwindSafe for qoi::Error
+impl<T, U> core::convert::Into<U> for qoi::Error where U: core::convert::From<T>
+pub fn qoi::Error::into(self) -> U
+impl<T, U> core::convert::TryFrom<U> for qoi::Error where U: core::convert::Into<T>
+pub type qoi::Error::Error = core::convert::Infallible
+pub fn qoi::Error::try_from(value: U) -> core::result::Result<T, <T as core::convert::TryFrom<U>>::Error>
+impl<T, U> core::convert::TryInto<U> for qoi::Error where U: core::convert::TryFrom<T>
+pub type qoi::Error::Error = <U as core::convert::TryFrom<T>>::Error
+pub fn qoi::Error::try_into(self) -> core::result::Result<U, <U as core::convert::TryFrom<T>>::Error>
+impl<T> alloc::string::ToString for qoi::Error where T: core::fmt::Display + ?core::marker::Sized
+pub fn qoi::Error::to_string(&self) -> alloc::string::String
+impl<T> core::any::Any for qoi::Error where T: 'static + ?core::marker::Sized
+pub fn qoi::Error::type_id(&self) -> core::any::TypeId
+impl<T> core::borrow::Borrow<T> for qoi::Error where T: ?core::marker::Sized
+pub fn qoi::Error::borrow(&self) -> &T
+impl<T> core::borrow::BorrowMut<T> for qoi::Error where T: ?core::marker::Sized
+pub fn qoi::Error::borrow_mut(&mut self) -> &mut T
+impl<T> core::convert::From<T> for qoi::Error
+pub fn qoi::Error::from(t: T) -> T
+pub enum qoi::RawChannels
+pub qoi::RawChannels::Abgr
+pub qoi::RawChannels::Argb
+pub qoi::RawChannels::Bgr
+pub qoi::RawChannels::Bgra
+pub qoi::RawChannels::Bgrx
+pub qoi::RawChannels::Rgb
+pub qoi::RawChannels::Rgba
+pub qoi::RawChannels::Rgbx
+pub qoi::RawChannels::Xbgr
+pub qoi::RawChannels::Xrgb
+impl core::clone::Clone for qoi::RawChannels
+pub fn qoi::RawChannels::clone(&self) -> qoi::RawChannels
+impl core::cmp::Eq for qoi::RawChannels
+impl core::cmp::PartialEq for qoi::RawChannels
+pub fn qoi::RawChannels::eq(&self, other: &qoi::RawChannels) -> bool
+impl core::convert::From<qoi::Channels> for qoi::RawChannels
+pub fn qoi::RawChannels::from(value: qoi::Channels) -> Self
+impl core::convert::From<qoi::RawChannels> for qoi::Channels
+pub fn qoi::Channels::from(value: qoi::RawChannels) -> Self
+impl core::fmt::Debug for qoi::RawChannels
+pub fn qoi::RawChannels::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for qoi::RawChannels
+impl core::marker::StructuralPartialEq for qoi::RawChannels
+impl core::marker::Freeze for qoi::RawChannels
+impl core::marker::Send for qoi::RawChannels
+impl core::marker::Sync for qoi::RawChannels
+impl core::marker::Unpin for qoi::RawChannels
+impl core::panic::unwind_safe::RefUnwindSafe for qoi::RawChannels
+impl core::panic::unwind_safe::UnwindSafe for qoi::RawChannels
+impl<T, U> core::convert::Into<U> for qoi::RawChannels where U: core::convert::From<T>
+pub fn qoi::RawChannels::into(self) -> U
+impl<T, U> core::convert::TryFrom<U> for qoi::RawChannels where U: core::convert::Into<T>
+pub type qoi::RawChannels::Error = core::convert::Infallible
+pub fn qoi::RawChannels::try_from(value: U) -> core::result::Result<T, <T as core::convert::TryFrom<U>>::Error>
+impl<T, U> core::convert::TryInto<U> for qoi::RawChannels where U: core::convert::TryFrom<T>
+pub type qoi::RawChannels::Error = <U as core::convert::TryFrom<T>>::Error
+pub fn qoi::RawChannels::try_into(self) -> core::result::Result<U, <U as core::convert::TryFrom<T>>::Error>
+impl<T> alloc::borrow::ToOwned for qoi::RawChannels where T: core::clone::Clone
+pub type qoi::RawChannels::Owned = T
+pub fn qoi::RawChannels::clone_into(&self, target: &mut T)
+pub fn qoi::RawChannels::to_owned(&self) -> T
+impl<T> core::any::Any for qoi::RawChannels where T: 'static + ?core::marker::Sized
+pub fn qoi::RawChannels::type_id(&self) -> core::any::TypeId
+impl<T> core::borrow::Borrow<T> for qoi::RawChannels where T: ?core::marker::Sized
+pub fn qoi::RawChannels::borrow(&self) -> &T
+impl<T> core::borrow::BorrowMut<T> for qoi::RawChannels where T: ?core::marker::Sized
+pub fn qoi::RawChannels::borrow_mut(&mut self) -> &mut T
+impl<T> core::clone::CloneToUninit for qoi::RawChannels where T: core::clone::Clone
+pub unsafe fn qoi::RawChannels::clone_to_uninit(&self, dest: *mut u8)
+impl<T> core::convert::From<T> for qoi::RawChannels
+pub fn qoi::RawChannels::from(t: T) -> T
+pub struct qoi::Decoder<R>
+impl<'a> qoi::Decoder<qoi::decode::Bytes<'a>>
+pub const fn qoi::Decoder<qoi::decode::Bytes<'a>>::data(&self) -> &[u8]
+pub fn qoi::Decoder<qoi::decode::Bytes<'a>>::new(data: &'a impl core::convert::AsRef<[u8]> + ?core::marker::Sized) -> qoi::Result<Self>
+impl<R: Reader> qoi::Decoder<R>
+pub const fn qoi::Decoder<R>::channels(&self) -> qoi::Channels
+pub fn qoi::Decoder<R>::decode_to_buf(&mut self, buf: impl core::convert::AsMut<[u8]>) -> qoi::Result<usize>
+pub fn qoi::Decoder<R>::decode_to_vec(&mut self) -> qoi::Result<alloc::vec::Vec<u8>>
+pub const fn qoi::Decoder<R>::header(&self) -> &qoi::Header
+pub const fn qoi::Decoder<R>::required_buf_len(&self) -> usize
+pub const fn qoi::Decoder<R>::with_channels(self, channels: qoi::Channels) -> Self
+impl<R: std::io::Read> qoi::Decoder<R>
+pub fn qoi::Decoder<R>::from_stream(reader: R) -> qoi::Result<Self>
+pub fn qoi::Decoder<R>::into_reader(self) -> R
+pub const fn qoi::Decoder<R>::reader(&self) -> &R
+impl<R: core::clone::Clone> core::clone::Clone for qoi::Decoder<R>
+pub fn qoi::Decoder<R>::clone(&self) -> qoi::Decoder<R>
+impl<R> core::marker::Freeze for qoi::Decoder<R> where R: core::marker::Freeze
+impl<R> core::marker::Send for qoi::Decoder<R> where R: core::marker::Send
+impl<R> core::marker::Sync for qoi::Decoder<R> where R: core::marker::Sync
+impl<R> core::marker::Unpin for qoi::Decoder<R> where R: core::marker::Unpin
+impl<R> core::panic::unwind_safe::RefUnwindSafe for qoi::Decoder<R> where R: core::panic::unwind_safe::RefUnwindSafe
+impl<R> core::panic::unwind_safe::UnwindSafe for qoi::Decoder<R> where R: core::panic::unwind_safe::UnwindSafe
+impl<T, U> core::convert::Into<U> for qoi::Decoder<R> where U: core::convert::From<T>
+pub fn qoi::Decoder<R>::into(self) -> U
+impl<T, U> core::convert::TryFrom<U> for qoi::Decoder<R> where U: core::convert::Into<T>
+pub type qoi::Decoder<R>::Error = core::convert::Infallible
+pub fn qoi::Decoder<R>::try_from(value: U) -> core::result::Result<T, <T as core::convert::TryFrom<U>>::Error>
+impl<T, U> core::convert::TryInto<U> for qoi::Decoder<R> where U: core::convert::TryFrom<T>
+pub type qoi::Decoder<R>::Error = <U as core::convert::TryFrom<T>>::Error
+pub fn qoi::Decoder<R>::try_into(self) -> core::result::Result<U, <U as core::convert::TryFrom<T>>::Error>
+impl<T> alloc::borrow::ToOwned for qoi::Decoder<R> where T: core::clone::Clone
+pub type qoi::Decoder<R>::Owned = T
+pub fn qoi::Decoder<R>::clone_into(&self, target: &mut T)
+pub fn qoi::Decoder<R>::to_owned(&self) -> T
+impl<T> core::any::Any for qoi::Decoder<R> where T: 'static + ?core::marker::Sized
+pub fn qoi::Decoder<R>::type_id(&self) -> core::any::TypeId
+impl<T> core::borrow::Borrow<T> for qoi::Decoder<R> where T: ?core::marker::Sized
+pub fn qoi::Decoder<R>::borrow(&self) -> &T
+impl<T> core::borrow::BorrowMut<T> for qoi::Decoder<R> where T: ?core::marker::Sized
+pub fn qoi::Decoder<R>::borrow_mut(&mut self) -> &mut T
+impl<T> core::clone::CloneToUninit for qoi::Decoder<R> where T: core::clone::Clone
+pub unsafe fn qoi::Decoder<R>::clone_to_uninit(&self, dest: *mut u8)
+impl<T> core::convert::From<T> for qoi::Decoder<R>
+pub fn qoi::Decoder<R>::from(t: T) -> T
+pub struct qoi::Encoder<'a>
+impl<'a> qoi::Encoder<'a>
+pub const fn qoi::Encoder<'a>::channels(&self) -> qoi::Channels
+pub fn qoi::Encoder<'a>::encode_to_buf(&self, buf: impl core::convert::AsMut<[u8]>) -> qoi::Result<usize>
+pub fn qoi::Encoder<'a>::encode_to_stream<W: std::io::Write>(&self, writer: &mut W) -> qoi::Result<usize>
+pub fn qoi::Encoder<'a>::encode_to_vec(&self) -> qoi::Result<alloc::vec::Vec<u8>>
+pub const fn qoi::Encoder<'a>::header(&self) -> &qoi::Header
+pub fn qoi::Encoder<'a>::new(data: &'a impl core::convert::AsRef<[u8]> + ?core::marker::Sized, width: u32, height: u32) -> qoi::Result<Self>
+pub fn qoi::Encoder<'a>::required_buf_len(&self) -> usize
+pub const fn qoi::Encoder<'a>::with_colorspace(self, colorspace: qoi::ColorSpace) -> Self
+impl<'a> core::marker::Freeze for qoi::Encoder<'a>
+impl<'a> core::marker::Send for qoi::Encoder<'a>
+impl<'a> core::marker::Sync for qoi::Encoder<'a>
+impl<'a> core::marker::Unpin for qoi::Encoder<'a>
+impl<'a> core::panic::unwind_safe::RefUnwindSafe for qoi::Encoder<'a>
+impl<'a> core::panic::unwind_safe::UnwindSafe for qoi::Encoder<'a>
+impl<T, U> core::convert::Into<U> for qoi::Encoder<'a> where U: core::convert::From<T>
+pub fn qoi::Encoder<'a>::into(self) -> U
+impl<T, U> core::convert::TryFrom<U> for qoi::Encoder<'a> where U: core::convert::Into<T>
+pub type qoi::Encoder<'a>::Error = core::convert::Infallible
+pub fn qoi::Encoder<'a>::try_from(value: U) -> core::result::Result<T, <T as core::convert::TryFrom<U>>::Error>
+impl<T, U> core::convert::TryInto<U> for qoi::Encoder<'a> where U: core::convert::TryFrom<T>
+pub type qoi::Encoder<'a>::Error = <U as core::convert::TryFrom<T>>::Error
+pub fn qoi::Encoder<'a>::try_into(self) -> core::result::Result<U, <U as core::convert::TryFrom<T>>::Error>
+impl<T> core::any::Any for qoi::Encoder<'a> where T: 'static + ?core::marker::Sized
+pub fn qoi::Encoder<'a>::type_id(&self) -> core::any::TypeId
+impl<T> core::borrow::Borrow<T> for qoi::Encoder<'a> where T: ?core::marker::Sized
+pub fn qoi::Encoder<'a>::borrow(&self) -> &T
+impl<T> core::borrow::BorrowMut<T> for qoi::Encoder<'a> where T: ?core::marker::Sized
+pub fn qoi::Encoder<'a>::borrow_mut(&mut self) -> &mut T
+impl<T> core::convert::From<T> for qoi::Encoder<'a>
+pub fn qoi::Encoder<'a>::from(t: T) -> T
+pub struct qoi::EncoderBuilder<'a>
+impl<'a> qoi::EncoderBuilder<'a>
+pub fn qoi::EncoderBuilder<'a>::build(self) -> qoi::Result<qoi::Encoder<'a>>
+pub const fn qoi::EncoderBuilder<'a>::colorspace(self, colorspace: qoi::ColorSpace) -> Self
+pub fn qoi::EncoderBuilder<'a>::new(data: &'a impl core::convert::AsRef<[u8]> + ?core::marker::Sized, width: u32, height: u32) -> Self
+pub const fn qoi::EncoderBuilder<'a>::raw_channels(self, raw_channels: qoi::RawChannels) -> Self
+pub const fn qoi::EncoderBuilder<'a>::stride(self, stride: usize) -> Self
+impl<'a> core::marker::Freeze for qoi::EncoderBuilder<'a>
+impl<'a> core::marker::Send for qoi::EncoderBuilder<'a>
+impl<'a> core::marker::Sync for qoi::EncoderBuilder<'a>
+impl<'a> core::marker::Unpin for qoi::EncoderBuilder<'a>
+impl<'a> core::panic::unwind_safe::RefUnwindSafe for qoi::EncoderBuilder<'a>
+impl<'a> core::panic::unwind_safe::UnwindSafe for qoi::EncoderBuilder<'a>
+impl<T, U> core::convert::Into<U> for qoi::EncoderBuilder<'a> where U: core::convert::From<T>
+pub fn qoi::EncoderBuilder<'a>::into(self) -> U
+impl<T, U> core::convert::TryFrom<U> for qoi::EncoderBuilder<'a> where U: core::convert::Into<T>
+pub type qoi::EncoderBuilder<'a>::Error = core::convert::Infallible
+pub fn qoi::EncoderBuilder<'a>::try_from(value: U) -> core::result::Result<T, <T as core::convert::TryFrom<U>>::Error>
+impl<T, U> core::convert::TryInto<U> for qoi::EncoderBuilder<'a> where U: core::convert::TryFrom<T>
+pub type qoi::EncoderBuilder<'a>::Error = <U as core::convert::TryFrom<T>>::Error
+pub fn qoi::EncoderBuilder<'a>::try_into(self) -> core::result::Result<U, <U as core::convert::TryFrom<T>>::Error>
+impl<T> core::any::Any for qoi::EncoderBuilder<'a> where T: 'static + ?core::marker::Sized
+pub fn qoi::EncoderBuilder<'a>::type_id(&self) -> core::any::TypeId
+impl<T> core::borrow::Borrow<T> for qoi::EncoderBuilder<'a> where T: ?core::marker::Sized
+pub fn qoi::EncoderBuilder<'a>::borrow(&self) -> &T
+impl<T> core::borrow::BorrowMut<T> for qoi::EncoderBuilder<'a> where T: ?core::marker::Sized
+pub fn qoi::EncoderBuilder<'a>::borrow_mut(&mut self) -> &mut T
+impl<T> core::convert::From<T> for qoi::EncoderBuilder<'a>
+pub fn qoi::EncoderBuilder<'a>::from(t: T) -> T
+pub struct qoi::Header
+pub qoi::Header::channels: qoi::Channels
+pub qoi::Header::colorspace: qoi::ColorSpace
+pub qoi::Header::height: u32
+pub qoi::Header::width: u32
+impl qoi::Header
+pub fn qoi::Header::decode(data: impl core::convert::AsRef<[u8]>) -> qoi::Result<Self>
+pub fn qoi::Header::encode(&self) -> [u8; 14]
+pub fn qoi::Header::encode_max_len(&self) -> usize
+pub const fn qoi::Header::n_bytes(&self) -> usize
+pub const fn qoi::Header::n_pixels(&self) -> usize
+pub const fn qoi::Header::try_new(width: u32, height: u32, channels: qoi::Channels, colorspace: qoi::ColorSpace) -> qoi::Result<Self>
+pub const fn qoi::Header::with_channels(self, channels: qoi::Channels) -> Self
+pub const fn qoi::Header::with_colorspace(self, colorspace: qoi::ColorSpace) -> Self
+impl core::clone::Clone for qoi::Header
+pub fn qoi::Header::clone(&self) -> qoi::Header
+impl core::cmp::Eq for qoi::Header
+impl core::cmp::PartialEq for qoi::Header
+pub fn qoi::Header::eq(&self, other: &qoi::Header) -> bool
+impl core::default::Default for qoi::Header
+pub fn qoi::Header::default() -> Self
+impl core::fmt::Debug for qoi::Header
+pub fn qoi::Header::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::hash::Hash for qoi::Header
+pub fn qoi::Header::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
+impl core::marker::Copy for qoi::Header
+impl core::marker::StructuralPartialEq for qoi::Header
+impl core::marker::Freeze for qoi::Header
+impl core::marker::Send for qoi::Header
+impl core::marker::Sync for qoi::Header
+impl core::marker::Unpin for qoi::Header
+impl core::panic::unwind_safe::RefUnwindSafe for qoi::Header
+impl core::panic::unwind_safe::UnwindSafe for qoi::Header
+impl<T, U> core::convert::Into<U> for qoi::Header where U: core::convert::From<T>
+pub fn qoi::Header::into(self) -> U
+impl<T, U> core::convert::TryFrom<U> for qoi::Header where U: core::convert::Into<T>
+pub type qoi::Header::Error = core::convert::Infallible
+pub fn qoi::Header::try_from(value: U) -> core::result::Result<T, <T as core::convert::TryFrom<U>>::Error>
+impl<T, U> core::convert::TryInto<U> for qoi::Header where U: core::convert::TryFrom<T>
+pub type qoi::Header::Error = <U as core::convert::TryFrom<T>>::Error
+pub fn qoi::Header::try_into(self) -> core::result::Result<U, <U as core::convert::TryFrom<T>>::Error>
+impl<T> alloc::borrow::ToOwned for qoi::Header where T: core::clone::Clone
+pub type qoi::Header::Owned = T
+pub fn qoi::Header::clone_into(&self, target: &mut T)
+pub fn qoi::Header::to_owned(&self) -> T
+impl<T> core::any::Any for qoi::Header where T: 'static + ?core::marker::Sized
+pub fn qoi::Header::type_id(&self) -> core::any::TypeId
+impl<T> core::borrow::Borrow<T> for qoi::Header where T: ?core::marker::Sized
+pub fn qoi::Header::borrow(&self) -> &T
+impl<T> core::borrow::BorrowMut<T> for qoi::Header where T: ?core::marker::Sized
+pub fn qoi::Header::borrow_mut(&mut self) -> &mut T
+impl<T> core::clone::CloneToUninit for qoi::Header where T: core::clone::Clone
+pub unsafe fn qoi::Header::clone_to_uninit(&self, dest: *mut u8)
+impl<T> core::convert::From<T> for qoi::Header
+pub fn qoi::Header::from(t: T) -> T
+pub fn qoi::decode_header(data: impl core::convert::AsRef<[u8]>) -> qoi::Result<qoi::Header>
+pub fn qoi::decode_to_buf(buf: impl core::convert::AsMut<[u8]>, data: impl core::convert::AsRef<[u8]>) -> qoi::Result<qoi::Header>
+pub fn qoi::decode_to_vec(data: impl core::convert::AsRef<[u8]>) -> qoi::Result<(qoi::Header, alloc::vec::Vec<u8>)>
+pub fn qoi::encode_max_len(width: u32, height: u32, channels: impl core::convert::Into<u8>) -> usize
+pub fn qoi::encode_to_buf(buf: impl core::convert::AsMut<[u8]>, data: impl core::convert::AsRef<[u8]>, width: u32, height: u32) -> qoi::Result<usize>
+pub fn qoi::encode_to_vec(data: impl core::convert::AsRef<[u8]>, width: u32, height: u32) -> qoi::Result<alloc::vec::Vec<u8>>
+pub type qoi::Result<T> = core::result::Result<T, qoi::Error>
